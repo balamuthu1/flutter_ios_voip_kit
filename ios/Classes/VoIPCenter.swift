@@ -32,6 +32,8 @@ class VoIPCenter: NSObject {
         case onDidUpdatePushToken
         case onDidActivateAudioSession
         case onDidDeactivateAudioSession
+        case onDidCallMuteEnabled
+        case onDidCallMuteDisabled
     }
 
     // MARK: - PushKit
@@ -185,6 +187,17 @@ extension VoIPCenter: CXProviderDelegate {
 
         self.callKitCenter.disconnected(reason: .remoteEnded)
         action.fulfill()
+    }
+    
+    public func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
+        if (action.isMuted) {
+            print("🔈 VoIP mute enabled")
+            self.eventSink?(["event": EventChannel.onDidCallMuteEnabled.rawValue])
+            return
+        }
+        
+        print("🔈 VoIP mute disabled")
+        self.eventSink?(["event": EventChannel.onDidCallMuteDisabled.rawValue])
     }
     
     public func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {

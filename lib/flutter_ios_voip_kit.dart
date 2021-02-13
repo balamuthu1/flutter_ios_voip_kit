@@ -14,6 +14,7 @@ typedef IncomingPush = void Function(Map<String, dynamic> payload);
 typedef IncomingAction = void Function(String uuid, String callerId);
 typedef OnUpdatePushToken = void Function(String token);
 typedef OnAudioSessionStateChanged = void Function(bool active);
+typedef OnAudioMuteEnabled = void Function(bool active);
 
 class FlutterIOSVoIPKit {
   static FlutterIOSVoIPKit get instance => _getInstance();
@@ -48,6 +49,7 @@ class FlutterIOSVoIPKit {
   OnUpdatePushToken onDidUpdatePushToken;
 
   OnAudioSessionStateChanged onAudioSessionStateChanged;
+  OnAudioMuteEnabled onAudioMuteEnabled;
 
   StreamSubscription<dynamic> _eventSubscription;
 
@@ -252,6 +254,14 @@ class FlutterIOSVoIPKit {
         print('🎈 onDidDeactivateAudioSession');
         if (onAudioSessionStateChanged != null)
           onAudioSessionStateChanged(false);
+        break;
+      case 'onDidCallMuteEnabled':
+        print('🎈 onDidCallMuteEnabled');
+        onAudioMuteEnabled(true);
+        break;
+      case 'onDidCallMuteDisabled':
+        print('🎈 onDidCallMuteEnabled');
+        onAudioMuteEnabled(false);
         break;
     }
   }
