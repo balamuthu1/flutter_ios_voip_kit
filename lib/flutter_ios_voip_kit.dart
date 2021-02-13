@@ -12,7 +12,6 @@ final MethodChannel _channel = MethodChannel(ChannelType.method.name);
 
 typedef IncomingPush = void Function(Map<String, dynamic> payload);
 typedef IncomingAction = void Function(String uuid, String callerId);
-typedef CallEndAction = void Function(String uuid, String callerId);
 typedef OnUpdatePushToken = void Function(String token);
 typedef OnAudioSessionStateChanged = void Function(bool active);
 typedef OnAudioMuteEnabled = void Function(bool active);
@@ -46,7 +45,7 @@ class FlutterIOSVoIPKit {
   /// This is because the app is already running when the incoming call screen is displayed for CallKit.
   /// If not called, make sure the app is calling [onDidAcceptIncomingCall] and [onDidRejectIncomingCall] in the Dart class(ex: main.dart) that is called immediately after the app is launched.
   IncomingAction onDidAcceptIncomingCall;
-  CallEndAction onDidIncomingCallEnded;
+  IncomingAction onDidIncomingCallEnded;
   IncomingAction onDidRejectIncomingCall;
   OnUpdatePushToken onDidUpdatePushToken;
 
